@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giải Toán Lớp 9 - Phương Trình Bậc 2</title>
+    <title>Giải Toán Lớp 9 - Hệ Phương Trình Bậc Nhất Hai Ẩn</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- MathJax Configuration -->
+    <!-- Cấu hình MathJax để vẽ công thức toán học -->
     <script>
         window.MathJax = {
             tex: {
@@ -24,47 +24,95 @@
         body { font-family: 'Inter', sans-serif; }
         .math-result {
             font-size: 1.25rem;
-            transition: all 0.3s ease;
+            line-height: 1.8;
         }
         .step-box {
             border-left: 5px solid #2563eb;
             background-color: #f1f5f9;
+        }
+        .method-btn.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
         }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen py-10 px-4">
     <div class="max-w-4xl mx-auto">
         <!-- Header -->
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-8 border border-slate-200">
             <div class="bg-blue-600 p-6 text-white text-center">
-                <h1 class="text-2xl md:text-3xl font-bold uppercase tracking-wide">Giải Phương Trình Bậc Hai</h1>
+                <h1 class="text-2xl md:text-3xl font-bold uppercase tracking-wide">Giải Hệ Phương Trình Bậc Nhất Hai Ẩn</h1>
                 <p class="mt-2 opacity-90">Trình bày chi tiết theo chuẩn Sách Giáo Khoa Toán 9</p>
             </div>
             
             <div class="p-8">
                 <div class="flex justify-center mb-8">
                     <div class="text-xl italic text-slate-600 bg-slate-100 px-6 py-2 rounded-full">
-                        Dạng tổng quát: $ax^2 + bx + c = 0 \quad (a \neq 0)$
+                        Dạng tổng quát: $\begin{cases} a_1x + b_1y = c_1 \\ a_2x + b_2y = c_2 \end{cases}$
                     </div>
                 </div>
 
                 <!-- Input Section -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="relative">
-                        <label class="text-sm font-semibold text-slate-500 uppercase ml-1">Hệ số a</label>
-                        <input type="number" id="inputA" class="w-full text-lg border-2 border-slate-200 rounded-xl p-3 focus:border-blue-500 focus:outline-none transition-all" placeholder="Ví dụ: 1">
+                <div class="space-y-6 mb-8">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <label class="font-bold text-blue-700 flex items-center gap-2 mb-3">
+                            <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                            Phương trình thứ nhất:
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 uppercase ml-1">Hệ số $a_1$</label>
+                                <input type="number" id="inputA1" class="w-full text-lg border-2 border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none transition-all" placeholder="a1">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 uppercase ml-1">Hệ số $b_1$</label>
+                                <input type="number" id="inputB1" class="w-full text-lg border-2 border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none transition-all" placeholder="b1">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 uppercase ml-1">Hệ số $c_1$</label>
+                                <input type="number" id="inputC1" class="w-full text-lg border-2 border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none transition-all" placeholder="c1">
+                            </div>
+                        </div>
                     </div>
-                    <div class="relative">
-                        <label class="text-sm font-semibold text-slate-500 uppercase ml-1">Hệ số b</label>
-                        <input type="number" id="inputB" class="w-full text-lg border-2 border-slate-200 rounded-xl p-3 focus:border-blue-500 focus:outline-none transition-all" placeholder="Ví dụ: 2">
-                    </div>
-                    <div class="relative">
-                        <label class="text-sm font-semibold text-slate-500 uppercase ml-1">Hệ số c</label>
-                        <input type="number" id="inputC" class="w-full text-lg border-2 border-slate-200 rounded-xl p-3 focus:border-blue-500 focus:outline-none transition-all" placeholder="Ví dụ: -5">
+
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <label class="font-bold text-blue-700 flex items-center gap-2 mb-3">
+                            <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                            Phương trình thứ hai:
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 uppercase ml-1">Hệ số $a_2$</label>
+                                <input type="number" id="inputA2" class="w-full text-lg border-2 border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none transition-all" placeholder="a2">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 uppercase ml-1">Hệ số $b_2$</label>
+                                <input type="number" id="inputB2" class="w-full text-lg border-2 border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none transition-all" placeholder="b2">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-500 uppercase ml-1">Hệ số $c_2$</label>
+                                <input type="number" id="inputC2" class="w-full text-lg border-2 border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none transition-all" placeholder="c2">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <button onclick="solve()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 text-lg">
+                <!-- Method Selection -->
+                <div class="mb-8 p-5 bg-blue-50 rounded-xl border border-blue-100">
+                    <label class="block text-sm font-bold text-blue-800 uppercase mb-4 text-center">Chọn phương pháp giải</label>
+                    <div class="flex flex-col md:flex-row gap-4 justify-center">
+                        <button id="btnThe" onclick="selectMethod('the')" class="method-btn active px-6 py-3 rounded-lg border-2 border-blue-200 font-semibold transition-all hover:bg-blue-100">
+                            Phương pháp Thế
+                        </button>
+                        <button id="btnCong" onclick="selectMethod('cong')" class="method-btn px-6 py-3 rounded-lg border-2 border-blue-200 font-semibold transition-all hover:bg-blue-100">
+                            Phương pháp Cộng đại số
+                        </button>
+                    </div>
+                    <input type="hidden" id="selectedMethod" value="the">
+                </div>
+
+                <button onclick="solveSystem()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 text-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
@@ -74,8 +122,8 @@
         </div>
 
         <!-- Result Section -->
-        <div id="resultArea" class="hidden animate-fade-in">
-            <div class="bg-white rounded-2xl shadow-xl p-8">
+        <div id="resultArea" class="hidden">
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
                 <div class="flex items-center gap-3 mb-6 border-b pb-4">
                     <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -85,125 +133,170 @@
                     <h2 class="text-2xl font-bold text-slate-800">Lời giải chi tiết</h2>
                 </div>
                 
-                <div id="stepsOutput" class="math-result space-y-6"></div>
+                <div id="stepsOutput" class="math-result space-y-8"></div>
             </div>
         </div>
     </div>
 
     <script>
+        function selectMethod(method) {
+            document.getElementById('selectedMethod').value = method;
+            document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('active'));
+            if(method === 'the') document.getElementById('btnThe').classList.add('active');
+            else document.getElementById('btnCong').classList.add('active');
+        }
+
         function gcd(a, b) {
             return b ? gcd(b, a % b) : Math.abs(a);
         }
 
         function simplifyFraction(num, den) {
+            if (den === 0) return num.toString();
+            if (num === 0) return "0";
             if (den < 0) { num = -num; den = -den; }
             let common = gcd(num, den);
             num /= common;
             den /= common;
-            if (den === 1) return `${num}`;
+            if (den === 1) return num.toString();
             return `\\frac{${num}}{${den}}`;
         }
 
-        function simplifyRoot(n) {
-            let outside = 1;
-            let inside = n;
-            let d = 2;
-            while (d * d <= inside) {
-                if (inside % (d * d) === 0) {
-                    outside *= d;
-                    inside /= (d * d);
-                } else {
-                    d++;
-                }
+        function solveSystem() {
+            const a1 = parseFloat(document.getElementById('inputA1').value);
+            const b1 = parseFloat(document.getElementById('inputB1').value);
+            const c1 = parseFloat(document.getElementById('inputC1').value);
+            const a2 = parseFloat(document.getElementById('inputA2').value);
+            const b2 = parseFloat(document.getElementById('inputB2').value);
+            const c2 = parseFloat(document.getElementById('inputC2').value);
+            const method = document.getElementById('selectedMethod').value;
+            
+            if (isNaN(a1) || isNaN(b1) || isNaN(c1) || isNaN(a2) || isNaN(b2) || isNaN(c2)) {
+                alert("Vui lòng nhập đầy đủ các hệ số!");
+                return;
             }
-            return { outside, inside };
-        }
 
-        function solve() {
-            const a = parseFloat(document.getElementById('inputA').value);
-            const b = parseFloat(document.getElementById('inputB').value);
-            const c = parseFloat(document.getElementById('inputC').value);
             const resultArea = document.getElementById('resultArea');
             const output = document.getElementById('stepsOutput');
-
-            if (isNaN(a) || isNaN(b) || isNaN(c)) {
-                alert("Vui lòng nhập đầy đủ các hệ số a, b, c!");
-                return;
-            }
-
-            if (a === 0) {
-                alert("Hệ số a phải khác 0 để là phương trình bậc hai!");
-                return;
-            }
-
             resultArea.classList.remove('hidden');
             let content = "";
 
-            // Bước 1: Hệ số - Sửa lỗi hiển thị chữ quad
+            // Trình bày hệ ban đầu
             content += `
-                <div class="step-box p-4 rounded-r-xl">
-                    <p class="font-bold text-blue-800 mb-2">Bước 1: Xác định các hệ số</p>
-                    <p>Ta có: $a = ${a}; \\quad b = ${b}; \\quad c = ${c}$</p>
+                <div class="step-box p-5 rounded-r-xl">
+                    <p class="font-bold text-blue-800 mb-3">Hệ phương trình cần giải:</p>
+                    \\[ \\begin{cases} ${a1}x + (${b1})y = ${c1} \\quad (1) \\\\ ${a2}x + (${b2})y = ${c2} \\quad (2) \\end{cases} \\]
                 </div>
             `;
 
-            // Bước 2: Delta
-            const delta = b * b - 4 * a * c;
-            content += `
-                <div class="step-box p-4 rounded-r-xl">
-                    <p class="font-bold text-blue-800 mb-2">Bước 2: Tính biệt thức $\\Delta$</p>
-                    <p>$\\Delta = b^2 - 4ac = (${b})^2 - 4 \\cdot ${a} \\cdot (${c})$</p>
-                    <p>$\\Delta = ${b*b} - (${4*a*c}) = ${delta}$</p>
-                </div>
-            `;
+            const D = a1 * b2 - a2 * b1;
+            const Dx = c1 * b2 - c2 * b1;
+            const Dy = a1 * c2 - a2 * c1;
 
-            // Bước 3: Nghiệm
-            content += `<div class="step-box p-4 rounded-r-xl"><p class="font-bold text-blue-800 mb-2">Bước 3: Kết luận nghiệm</p>`;
-
-            if (delta < 0) {
-                content += `<p>Vì $\\Delta < 0$ (${delta} < 0) nên phương trình đã cho <strong>vô nghiệm</strong>.</p>`;
-            } else if (delta === 0) {
-                const x = -b / (2 * a);
-                content += `
-                    <p>Vì $\\Delta = 0$ nên phương trình có <strong>nghiệm kép</strong>:</p>
-                    <div class="my-4 text-center">
-                        \\[ x_1 = x_2 = -\\frac{b}{2a} = -\\frac{${b}}{2 \\cdot ${a}} = ${simplifyFraction(-b, 2*a)} \\]
-                    </div>
-                `;
-            } else {
-                content += `<p>Vì $\\Delta > 0$ (${delta} > 0) nên phương trình có <strong>hai nghiệm phân biệt</strong>:</p>`;
-                
-                const sqrtDelta = Math.sqrt(delta);
-                if (Number.isInteger(sqrtDelta)) {
-                    const x1_num = -b + sqrtDelta;
-                    const x2_num = -b - sqrtDelta;
-                    const mau = 2 * a;
-                    
+            if (D !== 0) {
+                if (method === 'the') {
+                    // --- PHƯƠNG PHÁP THẾ ---
+                    if (a1 !== 0) {
+                        content += `
+                            <div class="step-box p-5 rounded-r-xl">
+                                <p class="font-bold text-blue-800 mb-3">Bước 1: Rút ẩn $x$ từ phương trình (1)</p>
+                                <p>Từ phương trình (1), ta có:</p>
+                                <p>$${a1}x = ${c1} - (${b1})y$</p>
+                                <p>Suy ra: $x = \\frac{${c1} - (${b1})y}{${a1}}$</p>
+                            </div>
+                        `;
+                        content += `
+                            <div class="step-box p-5 rounded-r-xl">
+                                <p class="font-bold text-blue-800 mb-3">Bước 2: Thế biểu thức của $x$ vào phương trình (2)</p>
+                                <p>Thế vào phương trình (2), ta được:</p>
+                                <p>$${a2} \\cdot \\left(\\frac{${c1} - (${b1})y}{${a1}}\\right) + (${b2})y = ${c2}$</p>
+                            </div>
+                        `;
+                        content += `
+                            <div class="step-box p-5 rounded-r-xl">
+                                <p class="font-bold text-blue-800 mb-3">Bước 3: Giải phương trình một ẩn $y$ vừa thu được</p>
+                                <p>Ta có: $${a2 * c1} - ${a2 * b1}y + ${a1 * b2}y = ${a1 * c2}$</p>
+                                <p>Khi đó: $(${a1 * b2 - a2 * b1})y = ${a1 * c2 - a2 * c1}$</p>
+                                <p>Hay $${D}y = ${Dy}$</p>
+                                <p class="mt-4 text-center font-semibold">Suy ra: $y = ${simplifyFraction(Dy, D)}$</p>
+                            </div>
+                        `;
+                    } else {
+                        content += `
+                            <div class="step-box p-5 rounded-r-xl">
+                                <p class="font-bold text-blue-800 mb-3">Bước 1: Rút ẩn $y$ từ phương trình (1)</p>
+                                <p>Do $a_1 = 0$, ta có: $(${b1})y = ${c1}$</p>
+                                <p>Suy ra: $y = ${simplifyFraction(c1, b1)}$</p>
+                            </div>
+                        `;
+                        content += `
+                            <div class="step-box p-5 rounded-r-xl">
+                                <p class="font-bold text-blue-800 mb-3">Bước 2: Thế giá trị của $y$ vào phương trình (2)</p>
+                                <p>Thế $y = ${simplifyFraction(c1, b1)}$ vào phương trình (2), ta được:</p>
+                                <p>$${a2}x + (${b2}) \\cdot (${simplifyFraction(c1, b1)}) = ${c2}$</p>
+                            </div>
+                        `;
+                    }
                     content += `
-                        <div class="my-4">
-                            \\[ x_1 = \\frac{-b + \\sqrt{\\Delta}}{2a} = \\frac{-(${b}) + \\sqrt{${delta}}}{2 \\cdot ${a}} = \\frac{${x1_num}}{${mau}} = ${simplifyFraction(x1_num, mau)} \\]
-                            \\[ x_2 = \\frac{-b - \\sqrt{\\Delta}}{2a} = \\frac{-(${b}) - \\sqrt{${delta}}}{2 \\cdot ${a}} = \\frac{${x2_num}}{${mau}} = ${simplifyFraction(x2_num, mau)} \\]
+                        <div class="step-box p-5 rounded-r-xl border-l-green-500">
+                            <p class="font-bold text-green-800 mb-3">Bước 4: Tìm giá trị còn lại và kết luận</p>
+                            <p>Thay giá trị ẩn đã tìm được vào biểu thức đã rút ẩn ở Bước 1.</p>
+                            <p class="mt-4 text-lg font-bold text-slate-800">Hệ phương trình có nghiệm duy nhất là: $(x; y) = (${simplifyFraction(Dx, D)}; ${simplifyFraction(Dy, D)})$.</p>
                         </div>
                     `;
                 } else {
-                    const root = simplifyRoot(delta);
-                    const deltaLaTeX = root.outside === 1 ? `\\sqrt{${delta}}` : `${root.outside}\\sqrt{${root.inside}}`;
-                    const mau = 2 * a;
-                    
+                    // --- PHƯƠNG PHÁP CỘNG ĐẠI SỐ ---
                     content += `
-                        <div class="my-4">
-                            \\[ x_1 = \\frac{-b + \\sqrt{\\Delta}}{2a} = \\frac{-(${b}) + \\sqrt{${delta}}}{2 \\cdot ${a}} = \\frac{${-b} + ${deltaLaTeX}}{${mau}} \\]
-                            \\[ x_2 = \\frac{-b - \\sqrt{\\Delta}}{2a} = \\frac{-(${b}) - \\sqrt{${delta}}}{2 \\cdot ${a}} = \\frac{${-b} - ${deltaLaTeX}}{${mau}} \\]
+                        <div class="step-box p-5 rounded-r-xl">
+                            <p class="font-bold text-blue-800 mb-3">Bước 1: Làm bằng (hoặc đối) hệ số của ẩn $x$</p>
+                    `;
+                    
+                    if (a1 === a2 || a1 === -a2) {
+                        content += `<p>Nhận thấy hệ số của $x$ đã bằng nhau hoặc đối nhau. Ta tiến hành cộng hoặc trừ vế với vế.</p>`;
+                    } else {
+                        content += `<p>Nhân phương trình (1) với ${a2} và phương trình (2) với ${a1}, ta được hệ mới:</p>
+                        \\[ \\begin{cases} ${a1*a2}x + (${b1*a2})y = ${c1*a2} \\quad (1') \\\\ ${a1*a2}x + (${b2*a1})y = ${c2*a1} \\quad (2') \\end{cases} \\]`;
+                    }
+                    content += `</div>`;
+
+                    content += `
+                        <div class="step-box p-5 rounded-r-xl">
+                            <p class="font-bold text-blue-800 mb-3">Bước 2: Trừ (hoặc cộng) từng vế của hai phương trình</p>
+                            <p>Trừ từng vế của phương trình (1') cho phương trình (2'), ta triệt tiêu được $x$ và thu được:</p>
+                            <p>$(${b1*a2} - ${b2*a1})y = ${c1*a2} - ${c2*a1}$</p>
+                            <p>Suy ra: $${b1*a2 - b2*a1}y = ${c1*a2 - c2*a1}$</p>
+                            <p>Suy ra: $y = ${simplifyFraction(Dy, D)}$</p>
                         </div>
-                        <p class="text-sm text-slate-500 italic mt-2 text-center">Giá trị xấp xỉ: $x_1 \\approx ${((-b+sqrtDelta)/(2*a)).toFixed(3)}; \\quad x_2 \\approx ${((-b-sqrtDelta)/(2*a)).toFixed(3)}$</p>
+                    `;
+
+                    content += `
+                        <div class="step-box p-5 rounded-r-xl border-l-green-500">
+                            <p class="font-bold text-green-800 mb-3">Bước 3: Tìm $x$ và kết luận</p>
+                            <p>Thay $y = ${simplifyFraction(Dy, D)}$ vào phương trình (1) để tìm $x$.</p>
+                            <p class="mt-4 text-lg font-bold text-slate-800">Hệ phương trình có nghiệm duy nhất là: $(x; y) = (${simplifyFraction(Dx, D)}; ${simplifyFraction(Dy, D)})$.</p>
+                        </div>
                     `;
                 }
+            } else {
+                // Định thức = 0 (Vô nghiệm hoặc Vô số nghiệm)
+                content += `<div class="step-box p-5 rounded-r-xl border-l-red-500">`;
+                if (Dy === 0) {
+                    content += `
+                        <p class="font-bold text-red-800 mb-3">Kết luận:</p>
+                        <p>Sau khi biến đổi, ta thu được một đẳng thức luôn đúng.</p>
+                        <p class="text-xl font-bold mt-4">Hệ phương trình có vô số nghiệm.</p>
+                    `;
+                } else {
+                    content += `
+                        <p class="font-bold text-red-800 mb-3">Kết luận:</p>
+                        <p>Sau khi biến đổi, ta thu được một đẳng thức vô lý.</p>
+                        <p class="text-xl font-bold mt-4 text-red-600">Hệ phương trình vô nghiệm.</p>
+                    `;
+                }
+                content += `</div>`;
             }
-            content += `</div>`;
 
             output.innerHTML = content;
-
-            // Kích hoạt MathJax để vẽ lại công thức trong vùng nội dung mới
+            
             if (window.MathJax && window.MathJax.typesetPromise) {
                 MathJax.typesetPromise([output]).catch((err) => console.log(err));
             }
