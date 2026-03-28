@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giải Toán Lớp 9 - Phương Trình Bậc 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                enableMenu: false
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .math-result {
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+        .step-box {
+            border-left: 5px solid #2563eb;
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
+            <div class="bg-blue-600 p-6 text-white text-center">
+                <h1 class="text-2xl md:text-3xl font-bold uppercase tracking-wide">Giải Phương Trình Bậc Hai</h1>
+                <p class="mt-2 opacity-90">Trình bày chi tiết theo chuẩn Sách Giáo Khoa Toán 9</p>
+            </div>
+            
+            <div class="p-8">
+                <div class="flex justify-center mb-8">
+                    <div class="text-xl italic text-slate-600 bg-slate-100 px-6 py-2 rounded-full">
+                        Dạng tổng quát: $ax^2 + bx + c = 0 \quad (a \neq 0)$
+                    </div>
+                </div>
+
+                <!-- Input Section -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="relative">
+                        <label class="text-sm font-semibold text-slate-500 uppercase ml-1">Hệ số a</label>
+                        <input type="number" id="inputA" class="w-full text-lg border-2 border-slate-200 rounded-xl p-3 focus:border-blue-500 focus:outline-none transition-all" placeholder="Ví dụ: 1">
+                    </div>
+                    <div class="relative">
+                        <label class="text-sm font-semibold text-slate-500 uppercase ml-1">Hệ số b</label>
+                        <input type="number" id="inputB" class="w-full text-lg border-2 border-slate-200 rounded-xl p-3 focus:border-blue-500 focus:outline-none transition-all" placeholder="Ví dụ: 2">
+                    </div>
+                    <div class="relative">
+                        <label class="text-sm font-semibold text-slate-500 uppercase ml-1">Hệ số c</label>
+                        <input type="number" id="inputC" class="w-full text-lg border-2 border-slate-200 rounded-xl p-3 focus:border-blue-500 focus:outline-none transition-all" placeholder="Ví dụ: -5">
+                    </div>
+                </div>
+
+                <button onclick="solve()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 text-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    GIẢI BÀI TOÁN
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultArea" class="hidden animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="flex items-center gap-3 mb-6 border-b pb-4">
+                    <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800">Lời giải chi tiết</h2>
+                </div>
+                
+                <div id="stepsOutput" class="math-result space-y-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function gcd(a, b) {
+            return b ? gcd(b, a % b) : Math.abs(a);
+        }
+
+        function simplifyFraction(num, den) {
+            if (den < 0) { num = -num; den = -den; }
+            let common = gcd(num, den);
+            num /= common;
+            den /= common;
+            if (den === 1) return `${num}`;
+            return `\\frac{${num}}{${den}}`;
+        }
+
+        function simplifyRoot(n) {
+            let outside = 1;
+            let inside = n;
+            let d = 2;
+            while (d * d <= inside) {
+                if (inside % (d * d) === 0) {
+                    outside *= d;
+                    inside /= (d * d);
+                } else {
+                    d++;
+                }
+            }
+            return { outside, inside };
+        }
+
+        function solve() {
+            const a = parseFloat(document.getElementById('inputA').value);
+            const b = parseFloat(document.getElementById('inputB').value);
+            const c = parseFloat(document.getElementById('inputC').value);
+            const resultArea = document.getElementById('resultArea');
+            const output = document.getElementById('stepsOutput');
+
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                alert("Vui lòng nhập đầy đủ các hệ số a, b, c!");
+                return;
+            }
+
+            if (a === 0) {
+                alert("Hệ số a phải khác 0 để là phương trình bậc hai!");
+                return;
+            }
+
+            resultArea.classList.remove('hidden');
+            let content = "";
+
+            // Bước 1: Hệ số - Sửa lỗi hiển thị chữ quad
+            content += `
+                <div class="step-box p-4 rounded-r-xl">
+                    <p class="font-bold text-blue-800 mb-2">Bước 1: Xác định các hệ số</p>
+                    <p>Ta có: $a = ${a}; \\quad b = ${b}; \\quad c = ${c}$</p>
+                </div>
+            `;
+
+            // Bước 2: Delta
+            const delta = b * b - 4 * a * c;
+            content += `
+                <div class="step-box p-4 rounded-r-xl">
+                    <p class="font-bold text-blue-800 mb-2">Bước 2: Tính biệt thức $\\Delta$</p>
+                    <p>$\\Delta = b^2 - 4ac = (${b})^2 - 4 \\cdot ${a} \\cdot (${c})$</p>
+                    <p>$\\Delta = ${b*b} - (${4*a*c}) = ${delta}$</p>
+                </div>
+            `;
+
+            // Bước 3: Nghiệm
+            content += `<div class="step-box p-4 rounded-r-xl"><p class="font-bold text-blue-800 mb-2">Bước 3: Kết luận nghiệm</p>`;
+
+            if (delta < 0) {
+                content += `<p>Vì $\\Delta < 0$ (${delta} < 0) nên phương trình đã cho <strong>vô nghiệm</strong>.</p>`;
+            } else if (delta === 0) {
+                const x = -b / (2 * a);
+                content += `
+                    <p>Vì $\\Delta = 0$ nên phương trình có <strong>nghiệm kép</strong>:</p>
+                    <div class="my-4 text-center">
+                        \\[ x_1 = x_2 = -\\frac{b}{2a} = -\\frac{${b}}{2 \\cdot ${a}} = ${simplifyFraction(-b, 2*a)} \\]
+                    </div>
+                `;
+            } else {
+                content += `<p>Vì $\\Delta > 0$ (${delta} > 0) nên phương trình có <strong>hai nghiệm phân biệt</strong>:</p>`;
+                
+                const sqrtDelta = Math.sqrt(delta);
+                if (Number.isInteger(sqrtDelta)) {
+                    const x1_num = -b + sqrtDelta;
+                    const x2_num = -b - sqrtDelta;
+                    const mau = 2 * a;
+                    
+                    content += `
+                        <div class="my-4">
+                            \\[ x_1 = \\frac{-b + \\sqrt{\\Delta}}{2a} = \\frac{-(${b}) + \\sqrt{${delta}}}{2 \\cdot ${a}} = \\frac{${x1_num}}{${mau}} = ${simplifyFraction(x1_num, mau)} \\]
+                            \\[ x_2 = \\frac{-b - \\sqrt{\\Delta}}{2a} = \\frac{-(${b}) - \\sqrt{${delta}}}{2 \\cdot ${a}} = \\frac{${x2_num}}{${mau}} = ${simplifyFraction(x2_num, mau)} \\]
+                        </div>
+                    `;
+                } else {
+                    const root = simplifyRoot(delta);
+                    const deltaLaTeX = root.outside === 1 ? `\\sqrt{${delta}}` : `${root.outside}\\sqrt{${root.inside}}`;
+                    const mau = 2 * a;
+                    
+                    content += `
+                        <div class="my-4">
+                            \\[ x_1 = \\frac{-b + \\sqrt{\\Delta}}{2a} = \\frac{-(${b}) + \\sqrt{${delta}}}{2 \\cdot ${a}} = \\frac{${-b} + ${deltaLaTeX}}{${mau}} \\]
+                            \\[ x_2 = \\frac{-b - \\sqrt{\\Delta}}{2a} = \\frac{-(${b}) - \\sqrt{${delta}}}{2 \\cdot ${a}} = \\frac{${-b} - ${deltaLaTeX}}{${mau}} \\]
+                        </div>
+                        <p class="text-sm text-slate-500 italic mt-2 text-center">Giá trị xấp xỉ: $x_1 \\approx ${((-b+sqrtDelta)/(2*a)).toFixed(3)}; \\quad x_2 \\approx ${((-b-sqrtDelta)/(2*a)).toFixed(3)}$</p>
+                    `;
+                }
+            }
+            content += `</div>`;
+
+            output.innerHTML = content;
+
+            // Kích hoạt MathJax để vẽ lại công thức trong vùng nội dung mới
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise([output]).catch((err) => console.log(err));
+            }
+        }
+    </script>
+</body>
+</html>
